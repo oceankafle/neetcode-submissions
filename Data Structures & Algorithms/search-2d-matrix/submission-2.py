@@ -1,0 +1,35 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        ROWS, COLS = len(matrix), len(matrix[0])
+
+        # first find the correct row with target in it
+        top, bot = 0, ROWS - 1
+        while top <= bot: # first find the middle row to be able to eliminate half the rows at a time
+            row = (top + bot) // 2
+            if matrix[row][-1] < target:  # check end of the row
+                top = row + 1
+            elif matrix[row][0] > target: # check beg of the row
+                bot = row - 1
+            else:
+                break # means we found the row with the target in it
+        
+        if top > bot: # none of the rows contain the target value
+            return False
+        
+        row = (top + bot) // 2
+        l = 0
+        r = len(matrix[0]) - 1
+
+        while l <= r:
+            mid = (l + r) // 2
+            if matrix[row][mid] == target:
+                return True
+            elif matrix[row][mid] < target:
+                l = mid + 1
+            else:
+                r = mid - 1
+        return False
+
+
+        
+                
